@@ -17,3 +17,6 @@
 
 # binaries
 *.class
+
+# generated
+dummy.pdf
