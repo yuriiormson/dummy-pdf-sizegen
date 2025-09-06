@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Lightweight wrapper to run the PDF generator from project root
+DIR="$(cd "$(dirname "$0")" && pwd)"
+java -jar "$DIR/build/libs/pdf-sizegen-1.0-SNAPSHOT.jar" "$@"

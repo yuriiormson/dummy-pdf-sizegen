@@ -1,0 +1,71 @@
+# dummy-pdf-sizegen
+
+Small CLI tool (`dummy-pdf-sizegen`) to produce a PDF file of a specified size. The program writes a minimal PDF then pads the file to reach the exact byte count you requested.
+
+## Quick start
+
+From project root:
+
+```bash
+# build the JAR
+./gradlew build
+
+# run (example, fractional MB)
+./dummy-pdf-sizegen 47.7    # interpreted as 47.7 MiB (binary)
+
+# run (example, integer)
+./dummy-pdf-sizegen 33      # interpreted as 33 MB (decimal) so Explorer will show ~33 MB
+```
+
+`./dummy-pdf-sizegen` is a small wrapper in the project root that calls the built JAR. You can move it to a PATH directory to run globally.
+
+## Input rules
+- Integer input with no decimal point (e.g. `33`) is treated as *decimal MB* (1 MB = 1,000,000 bytes). This makes OS/Explorer display round to that MB value.
+- Fractional input (e.g. `47.7` or `47,7`) is treated as *binary MiB* (1 MiB = 1,048,576 bytes).
+
+## Output
+- The generated file is written as `dummy.pdf` in the project root by default.
+- The program prints a friendly block with:
+  - Bytes
+  - Binary (MiB)
+  - Decimal (MB)
+  - Explorer/OS display (rounded)
+  - A small note which target mode was used
+
+## Caveats
+- Padding is implemented by appending zero bytes after a minimal valid PDF. Most PDF readers ignore trailing bytes and the file will open normally, but the padding is not embedded inside the PDF structure. If you require a strictly internal PDF stream of an exact size (no trailing bytes), the code can be changed to embed a padding stream instead.
+
+## Customization
+sudo make install
+# then you can run anywhere:
+dummy-pdf-sizegen 33
+```bash
+sudo mv dummy-pdf-sizegen /usr/local/bin/dummy-pdf-sizegen
+# then run from anywhere
+dummy-pdf-sizegen 33
+
+---
+
+Example output (for a run targeting 46.6 MiB):
+
+```
+============================================================
+📄 dummy.pdf — Final Size
+──────────────────────────────────────────────
+• Binary (MiB):         46.60 MiB   (1 MiB = 1,048,576 bytes)
+
+• Bytes:                48,863,642
+
+• Decimal (MB):         48.86 MB    (1 MB  = 1,000,000 bytes)
+
+• Explorer/OS actual size display:  49 MB (rounded)
+============================================================
+(Target mode used: binary (MiB))
+```
+
+License: see `LICENSE` (MIT) in the project root.
+```
+
+## License & notes
+- Small utility for testing and fixtures. Use as needed.
+
