@@ -36,35 +36,39 @@ From project root:
 - Padding is implemented by appending zero bytes after a minimal valid PDF. Most PDF readers ignore trailing bytes and the file will open normally, but the padding is not embedded inside the PDF structure. If you require a strictly internal PDF stream of an exact size (no trailing bytes), the code can be changed to embed a padding stream instead.
 
 ## Customization
-sudo make install
-# then you can run anywhere:
-dummy-pdf-sizegen 33
+To install the wrapper to a system path (requires sudo):
+
 ```bash
+sudo make install
 sudo mv dummy-pdf-sizegen /usr/local/bin/dummy-pdf-sizegen
-# then run from anywhere
+```
+
+After that you can run from anywhere:
+
+```bash
 dummy-pdf-sizegen 33
+```
 
 ---
 
 Example output (for a run targeting 46.6 MiB):
 
 ```
-#============================================================
-#📄 dummy.pdf — Final Size
-#──────────────────────────────────────────────
-#• Binary (MiB):         46.60 MiB   (1 MiB = 1,048,576 bytes)
+============================================================
+📄 dummy.pdf — Final Size
+──────────────────────────────────────────────
+• Binary (MiB):         46.60 MiB   (1 MiB = 1,048,576 bytes)
 
-#• Bytes:                48,863,642
+• Bytes:                48,863,642
 
-#• Decimal (MB):         48.86 MB    (1 MB  = 1,000,000 bytes)
+• Decimal (MB):         48.86 MB    (1 MB  = 1,000,000 bytes)
 
-#• Explorer/OS actual size display:  49 MB (rounded)
-#============================================================
-#(Target mode used: binary (MiB))
+• Explorer/OS actual size display:  49 MB (rounded)
+============================================================
+(Target mode used: binary (MiB))
 ```
 
 License: see `LICENSE` (MIT) in the project root.
-```
 
 ## License & notes
 - Small utility for testing and fixtures. Use as needed.
