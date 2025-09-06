@@ -35,15 +35,53 @@ From project root:
 ## Caveats
 - Padding is implemented by appending zero bytes after a minimal valid PDF. Most PDF readers ignore trailing bytes and the file will open normally, but the padding is not embedded inside the PDF structure. If you require a strictly internal PDF stream of an exact size (no trailing bytes), the code can be changed to embed a padding stream instead.
 
+dummy-pdf-sizegen 33
 ## Customization
-To install the wrapper to a system path (requires sudo):
+To install the wrapper to a system path (requires sudo) you have a few safe options. Important: do NOT simply copy the wrapper to `/usr/local/bin` without also ensuring the wrapper can find the JAR — copying a script that uses a relative `build/libs/...` path will make it look for the JAR under `/usr/local/bin/build/libs/...` and fail with "Unable to access jarfile /usr/local/bin/build/libs/...".
+
+Recommended: install a symlink (keeps the repo copy as the single source of truth)
 
 ```bash
-sudo make install
-sudo mv dummy-pdf-sizegen /usr/local/bin/dummy-pdf-sizegen
+# build the jar first
+./gradlew build
+
+# create a global symlink (preferred)
+sudo ln -sf "$PWD/dummy-pdf-sizegen" /usr/local/bin/dummy-pdf-sizegen
 ```
 
-After that you can run from anywhere:
+Alternative: install a copy (safe if you prefer a standalone copy)
+
+```bash
+# copy the wrapper and set executable bit
+sudo install -m 0755 dummy-pdf-sizegen /usr/local/bin/dummy-pdf-sizegen
+```
+
+User-local install (no sudo)
+
+```bash
+mkdir -p ~/.local/bin
+cp dummy-pdf-sizegen ~/.local/bin/
+chmod 0755 ~/.local/bin/dummy-pdf-sizegen
+# add ~/.local/bin to PATH if needed
+```
+
+Homebrew users: prefer `/opt/homebrew/bin` as the install location on Apple Silicon.
+
+Troubleshooting
+- If you see "Unable to access jarfile /usr/local/bin/build/libs/...": remove the broken copy and install a symlink instead:
+
+```bash
+sudo rm -f /usr/local/bin/dummy-pdf-sizegen
+sudo ln -s "$PWD/dummy-pdf-sizegen" /usr/local/bin/dummy-pdf-sizegen
+```
+
+- Make sure you built the JAR before running the wrapper:
+
+```bash
+./gradlew clean build
+```
+
+After installation you can run from anywhere:
 
 ```bash
 dummy-pdf-sizegen 33
