@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 # Lightweight wrapper to run the PDF generator from project root
-DIR="$(cd "$(dirname "$0")" && pwd)"
+# Resolve symlinks to find the actual script directory, so this wrapper
+# works even when installed as a symlink in /usr/local/bin.
+SOURCE="${BASH_SOURCE[0]:-$0}"
+while [ -L "$SOURCE" ]; do
+	DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+	SOURCE="$(readlink "$SOURCE")"
+	[[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+
 java -jar "$DIR/build/libs/dummy-pdf-sizegen-1.0-SNAPSHOT.jar" "$@"
