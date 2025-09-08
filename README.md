@@ -12,11 +12,8 @@ From project root:
 # build the JAR
 ./gradlew build
 
-# run (example, fractional MB)
-./dummy-pdf-sizegen 47.7    # interpreted as 47.7 MiB (binary)
-
-# run (example, integer)
-./dummy-pdf-sizegen 33      # interpreted as 33 MB (decimal) so Explorer will show ~33 MB
+# run (example)
+./dummy-pdf-sizegen 47.7    # creates a 47,700,000 byte file
 ```
 
 ### Windows
@@ -25,18 +22,15 @@ From project root:
 # build the JAR
 .\gradlew.bat build
 
-# run (example, fractional MB)
+# run (example)
 .\dummy-pdf-sizegen.bat 47.7
-
-# run (example, integer)
-.\dummy-pdf-sizegen.bat 33
 ```
 
 `./dummy-pdf-sizegen` (for Linux/macOS) and `dummy-pdf-sizegen.bat` (for Windows) are small wrappers in the project root that call the built JAR. You can move them to a PATH directory to run globally.
 
 ## Input rules
-- Integer input with no decimal point (e.g. `33`) is treated as *decimal MB* (1 MB = 1,000,000 bytes). This makes OS/Explorer display round to that MB value.
-- Fractional input (e.g. `47.7` or `47,7`) is treated as *binary MiB* (1 MiB = 1,048,576 bytes).
+- The input size is always interpreted as **decimal megabytes (MB)**, where 1 MB = 1,000,000 bytes.
+- You can use integers (e.g., `33`) or fractional numbers (e.g., `47.7` or `47,7`).
 
 ## Output
 - The generated file is written as `dummy.pdf` in the project root, and then renamed to include its size, like `dummy-48-86MB.pdf`.
@@ -45,7 +39,6 @@ From project root:
   - Binary (MiB)
   - Decimal (MB)
   - Explorer/OS display (rounded)
-  - A small note which target mode was used
 
 ## Caveats
 - Padding is implemented by appending zero bytes after a minimal valid PDF. Most PDF readers ignore trailing bytes and the file will open normally, but the padding is not embedded inside the PDF structure. If you require a strictly internal PDF stream of an exact size (no trailing bytes), the code can be changed to embed a padding stream instead.
@@ -104,7 +97,7 @@ dummy-pdf-sizegen 33
 
 ---
 
-Example output (for a run targeting 46.6 MiB):
+Example output (for a run targeting 48.86 MB):
 
 ```
 ============================================================
@@ -118,7 +111,6 @@ Example output (for a run targeting 46.6 MiB):
 
 • Explorer/OS actual size display:  49 MB (rounded)
 ============================================================
-(Target mode used: binary (MiB))
 ```
 
 License: see `LICENSE` (MIT) in the project root.

@@ -29,17 +29,9 @@ public class Main {
             return;
         }
 
-        // If the user passed an integer (no dot/comma) treat it as decimal MB so Explorer shows that value when rounded.
-        boolean integerInput = !(rawArg.contains(".") || rawArg.contains(","));
-        long targetBytes;
-        String targetMode;
-        if (integerInput) {
-            targetBytes = Math.round(mbDouble * 1_000_000.0);
-            targetMode = "decimal (Explorer)";
-        } else {
-            targetBytes = Math.round(mbDouble * 1024.0 * 1024.0);
-            targetMode = "binary (MiB)";
-        }
+        // Always interpret input as decimal MB for consistency.
+        long targetBytes = Math.round(mbDouble * 1_000_000.0);
+
         File out = new File("dummy.pdf");
 
         // Create a minimal PDF once (small content)
@@ -87,25 +79,24 @@ public class Main {
     double mb = bytes / 1_000_000.0;
     long rounded = Math.round(mb);
 
-    String separator = "============================================================";
+    String separator = "=============================================================";
 
     System.out.println(separator);
-    System.out.println("📄 " + fileName + " — Final Size");
-    System.out.println("──────────────────────────────────────────────");
+    System.out.println("[i] " + fileName + " -- Final Size");
+    System.out.println("----------------------------------------------");
 
-    System.out.printf("• Binary (MiB):         %.2f MiB   (1 MiB = 1,048,576 bytes)%n", mib);
+    System.out.printf("* Binary (MiB):         %.2f MiB   (1 MiB = 1,048,576 bytes)%n", mib);
     System.out.println();
 
-    System.out.printf("• Bytes:                %,d%n", bytes);
+    System.out.printf("* Bytes:                %,d%n", bytes);
     System.out.println();
 
-    System.out.printf("• Decimal (MB):         %.2f MB    (1 MB  = 1,000,000 bytes)%n", mb);
+    System.out.printf("* Decimal (MB):         %.2f MB    (1 MB  = 1,000,000 bytes)%n", mb);
     System.out.println();
 
-    System.out.printf("• Explorer/OS actual size display:  %d MB (rounded)%n", rounded);
+    System.out.printf("* Explorer/OS actual size display:  %d MB (rounded)%n", rounded);
 
     System.out.println(separator);
-    System.out.println("(Target mode used: " + targetMode + ")");
     }
 
     private static void createMinimalPdf(File file) throws FileNotFoundException {
