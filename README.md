@@ -24,7 +24,7 @@ From project root:
 - Fractional input (e.g. `47.7` or `47,7`) is treated as *binary MiB* (1 MiB = 1,048,576 bytes).
 
 ## Output
-- The generated file is written as `dummy.pdf` in the project root by default.
+- The generated file is written as `dummy.pdf` in the project root, and then renamed to include its size, like `dummy-48-86MB.pdf`.
 - The program prints a friendly block with:
   - Bytes
   - Binary (MiB)
@@ -93,7 +93,7 @@ Example output (for a run targeting 46.6 MiB):
 
 ```
 ============================================================
-📄 dummy.pdf — Final Size
+📄 dummy-48-86MB.pdf — Final Size
 ──────────────────────────────────────────────
 • Binary (MiB):         46.60 MiB   (1 MiB = 1,048,576 bytes)
 
@@ -110,4 +110,3 @@ License: see `LICENSE` (MIT) in the project root.
 
 ## License & notes
 - Small utility for testing and fixtures. Use as needed.
-

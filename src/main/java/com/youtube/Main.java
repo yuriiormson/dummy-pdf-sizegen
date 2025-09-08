@@ -71,7 +71,7 @@ public class Main {
     try {
         long bytes = finalSize;
         double mbFinal = bytes / 1_000_000.0; // decimal MB
-        String newName = String.format(Locale.US, "dummy-%.2fMB.pdf", mbFinal);
+        String newName = "dummy-" + String.format(Locale.US, "%.2f", mbFinal).replace('.', '-') + "MB.pdf";
         File renamed = new File(out.getParentFile(), newName);
         if (out.renameTo(renamed)) {
             fileName = renamed.getName();
