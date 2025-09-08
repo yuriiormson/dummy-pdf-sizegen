@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -65,7 +66,22 @@ public class Main {
         }
 
     long finalSize = out.length();
-    String fileName = out.getName();
+    // Rename output file to include its final size in decimal MB (two decimals), e.g. dummy-48.86MB.pdf
+    String fileName;
+    try {
+        long bytes = finalSize;
+        double mbFinal = bytes / 1_000_000.0; // decimal MB
+        String newName = String.format(Locale.US, "dummy-%.2fMB.pdf", mbFinal);
+        File renamed = new File(out.getParentFile(), newName);
+        if (out.renameTo(renamed)) {
+            fileName = renamed.getName();
+            out = renamed;
+        } else {
+            fileName = out.getName();
+        }
+    } catch (Exception e) {
+        fileName = out.getName();
+    }
     long bytes = finalSize;
     double mib = bytes / 1048576.0;
     double mb = bytes / 1_000_000.0;
