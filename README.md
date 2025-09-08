@@ -6,6 +6,8 @@ Small CLI tool (`dummy-pdf-sizegen`) to produce a PDF file of a specified size. 
 
 From project root:
 
+### Linux / macOS
+
 ```bash
 # build the JAR
 ./gradlew build
@@ -17,7 +19,20 @@ From project root:
 ./dummy-pdf-sizegen 33      # interpreted as 33 MB (decimal) so Explorer will show ~33 MB
 ```
 
-`./dummy-pdf-sizegen` is a small wrapper in the project root that calls the built JAR. You can move it to a PATH directory to run globally.
+### Windows
+
+```batch
+# build the JAR
+.\gradlew.bat build
+
+# run (example, fractional MB)
+.\dummy-pdf-sizegen.bat 47.7
+
+# run (example, integer)
+.\dummy-pdf-sizegen.bat 33
+```
+
+`./dummy-pdf-sizegen` (for Linux/macOS) and `dummy-pdf-sizegen.bat` (for Windows) are small wrappers in the project root that call the built JAR. You can move them to a PATH directory to run globally.
 
 ## Input rules
 - Integer input with no decimal point (e.g. `33`) is treated as *decimal MB* (1 MB = 1,000,000 bytes). This makes OS/Explorer display round to that MB value.
